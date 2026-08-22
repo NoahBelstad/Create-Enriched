@@ -1,3 +1,6 @@
+##This is a ai generated file summarize g the project for me to remember this does not act as a readme and the contents of this file might be wrong or focus to much on spesific things. 
+
+
 CREATE: ENRICHED - MASTER TECHNICAL SPECIFICATION
 ================================================================================
  * PROJECT OVERVIEW
