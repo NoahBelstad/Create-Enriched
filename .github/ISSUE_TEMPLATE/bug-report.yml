@@ -1,21 +1,21 @@
-name: Core Bug Report
-description: Internal bug report template for core developers only.
-title: "fix(core): "
-labels: ["core-dev-only", "bug", "status: needs-triage"]
+name: Bug Report
+description: Create a report to help us improve and fix issues.
+title: "bug: "
+labels: ["bug", "triage"]
 assignees: []
 body:
   - type: markdown
     attributes:
       value: |
-        ### 🐛 Core Bug Report
-        This template is reserved strictly for internal core system bugs and regression tracking.
+        ### 🐛 Bug Report
+        Thank you for reporting an issue! Please provide as much detail as possible to help us reproduce and fix it.
 
   - type: textarea
     id: bug_summary
     attributes:
-      label: Bug Description
-      description: Clear and concise description of what the bug is.
-      placeholder: Describe the current unexpected behavior...
+      label: Describe the Bug
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe what happened...
     validations:
       required: true
 
@@ -23,11 +23,12 @@ body:
     id: reproduction_steps
     attributes:
       label: Steps to Reproduce
-      description: Steps or minimal code snippet to reproduce the behavior.
+      description: Explain step-by-step how to reproduce the issue.
       placeholder: |
         1. Go to '...'
-        2. Run command '...'
-        3. See error
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. See error
     validations:
       required: true
 
@@ -35,24 +36,36 @@ body:
     id: expected_behavior
     attributes:
       label: Expected Behavior
-      description: What should have happened instead.
-      placeholder: Describe the expected architectural or system outcome...
+      description: A clear description of what you expected to happen.
+      placeholder: I expected X to happen, but instead Y happened...
     validations:
       required: true
 
   - type: textarea
-    id: logs_or_context
+    id: environment
     attributes:
-      label: Stack Trace / Logs / Context
-      description: Add any relevant stack traces, terminal outputs, or system details.
-      placeholder: Paste logs or stack trace here...
+      label: Environment Details
+      description: System information (OS, browser, version, etc.).
+      placeholder: |
+        - OS: [e.g. macOS, Windows, Ubuntu]
+        - Version: [e.g. v1.2.3]
+        - Browser / Node version: [if applicable]
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs_or_screenshots
+    attributes:
+      label: Screenshots or Error Logs
+      description: Add any relevant log outputs or screenshots to help explain your problem.
+      placeholder: Paste error logs or drag images here...
     validations:
       required: false
 
   - type: checkboxes
-    id: verification
+    id: confirmation
     attributes:
-      label: Core Verification
+      label: Pre-submission Checklist
       options:
-        - label: Reproduced on latest main/master branch
-        - label: Affects core system stability or API contracts
+        - label: I have searched existing issues to ensure this bug hasn't already been reported.
+        - label: I am using the latest version of the project.
