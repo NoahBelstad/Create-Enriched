@@ -1,0 +1,31 @@
+name: Core Feature Task
+description: Internal task template for core developers only.
+title: "feat(core): "
+labels: ["core-dev-only", "status: approved"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### 🔒 Core Development Task
+        This task is reserved strictly for lead architecture and core development.
+  
+  - type: textarea
+    id: summary
+    attributes:
+      label: Technical Summary
+      description: High-level overview of the feature or architectural change.
+      placeholder: Describe the technical implementation details...
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Acceptance Criteria
+      options:
+        - label: Implementation complete
+        - label: New unit / integration tests created for all added features
+        - label: All existing and new tests passing locally and in CI
+        - label: Documentation / Specs updated
+        
