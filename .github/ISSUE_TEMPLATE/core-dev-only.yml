@@ -25,6 +25,7 @@ body:
       label: Acceptance Criteria
       options:
         - label: Implementation complete
-        - label: Unit / Integration tests passing
+        - label: New unit / integration tests created for all added features
+        - label: All existing and new tests passing locally and in CI
         - label: Documentation / Specs updated
-
+        
