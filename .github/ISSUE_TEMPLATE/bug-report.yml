@@ -1,0 +1,58 @@
+name: Core Bug Report
+description: Internal bug report template for core developers only.
+title: "fix(core): "
+labels: ["core-dev-only", "bug", "status: needs-triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### 🐛 Core Bug Report
+        This template is reserved strictly for internal core system bugs and regression tracking.
+
+  - type: textarea
+    id: bug_summary
+    attributes:
+      label: Bug Description
+      description: Clear and concise description of what the bug is.
+      placeholder: Describe the current unexpected behavior...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction_steps
+    attributes:
+      label: Steps to Reproduce
+      description: Steps or minimal code snippet to reproduce the behavior.
+      placeholder: |
+        1. Go to '...'
+        2. Run command '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected Behavior
+      description: What should have happened instead.
+      placeholder: Describe the expected architectural or system outcome...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs_or_context
+    attributes:
+      label: Stack Trace / Logs / Context
+      description: Add any relevant stack traces, terminal outputs, or system details.
+      placeholder: Paste logs or stack trace here...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: verification
+    attributes:
+      label: Core Verification
+      options:
+        - label: Reproduced on latest main/master branch
+        - label: Affects core system stability or API contracts
