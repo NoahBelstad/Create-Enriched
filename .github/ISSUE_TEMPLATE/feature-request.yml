@@ -1,0 +1,47 @@
+name: Core Feature Request
+description: Internal feature request template for core architecture changes.
+title: "feat(core): "
+labels: ["core-dev-only", "enhancement", "status: proposed"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### 🚀 Core Feature Request
+        Use this template to propose major architectural features or core system enhancements.
+
+  - type: textarea
+    id: problem_statement
+    attributes:
+      label: Problem Statement / Motivation
+      description: Is your feature request related to a problem or architectural bottleneck?
+      placeholder: A clear and concise description of the problem...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: Proposed Solution
+      description: Detailed description of what you want to happen and technical approach.
+      placeholder: Outline the architecture, API designs, or core changes proposed...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives_considered
+    attributes:
+      label: Alternatives Considered
+      description: Clear description of any alternative solutions or features considered.
+      placeholder: Describe workarounds or alternative designs evaluated...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: design_review
+    attributes:
+      label: Design & Security Verification
+      options:
+        - label: API backward compatibility evaluated
+        - label: Performance and scalability impact reviewed
+        - label: Ready for RFC / Design Doc discussion
