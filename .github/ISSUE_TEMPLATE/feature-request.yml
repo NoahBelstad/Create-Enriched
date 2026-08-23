@@ -1,47 +1,54 @@
-name: Core Feature Request
-description: Internal feature request template for core architecture changes.
-title: "feat(core): "
-labels: ["core-dev-only", "enhancement", "status: proposed"]
+name: Feature Request
+description: Suggest an idea or feature enhancement for this project.
+title: "feat: "
+labels: ["enhancement", "triage"]
 assignees: []
 body:
   - type: markdown
     attributes:
       value: |
-        ### 🚀 Core Feature Request
-        Use this template to propose major architectural features or core system enhancements.
+        ### 🚀 Feature Request
+        Have an idea to make this project better? We'd love to hear it!
 
   - type: textarea
     id: problem_statement
     attributes:
-      label: Problem Statement / Motivation
-      description: Is your feature request related to a problem or architectural bottleneck?
-      placeholder: A clear and concise description of the problem...
+      label: Is your feature request related to a problem?
+      description: A clear and concise description of what the problem is.
+      placeholder: I'm always frustrated when...
     validations:
       required: true
 
   - type: textarea
     id: proposed_solution
     attributes:
-      label: Proposed Solution
-      description: Detailed description of what you want to happen and technical approach.
-      placeholder: Outline the architecture, API designs, or core changes proposed...
+      label: Describe the Solution You'd Like
+      description: A clear description of what you want to happen.
+      placeholder: I would like the app to allow...
     validations:
       required: true
 
   - type: textarea
     id: alternatives_considered
     attributes:
-      label: Alternatives Considered
-      description: Clear description of any alternative solutions or features considered.
-      placeholder: Describe workarounds or alternative designs evaluated...
+      label: Describe Alternatives You've Considered
+      description: Any alternative solutions or features you've evaluated.
+      placeholder: I tried doing X, but it didn't work because...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Add any other context, mockups, or screenshots about the feature request here.
+      placeholder: Additional context or links...
     validations:
       required: false
 
   - type: checkboxes
-    id: design_review
+    id: confirmation
     attributes:
-      label: Design & Security Verification
+      label: Pre-submission Checklist
       options:
-        - label: API backward compatibility evaluated
-        - label: Performance and scalability impact reviewed
-        - label: Ready for RFC / Design Doc discussion
+        - label: I have checked existing feature requests to make sure this isn't a duplicate.
