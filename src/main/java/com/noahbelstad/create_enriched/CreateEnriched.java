@@ -21,7 +21,7 @@ public class CreateEnriched {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public CreateEnriched(IEventBus modEventBus, ModContainer modContainer) {
-        CreateEnrichedFluids.init(modEventBus); // Auto-injected by ModderSidecar
+        CreateEnrichedFluids.init(modEventBus);
         NeoForge.EVENT_BUS.register(this);
     }
 
