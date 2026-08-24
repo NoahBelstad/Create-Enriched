@@ -1,5 +1,7 @@
 package com.noahbelstad.create_enriched;
 
+import com.noahbelstad.create_enriched.fluid.CreateEnrichedFluids;
+
 import com.mojang.logging.LogUtils;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -19,6 +21,7 @@ public class CreateEnriched {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public CreateEnriched(IEventBus modEventBus, ModContainer modContainer) {
+        CreateEnrichedFluids.init(modEventBus); // Auto-injected by ModderSidecar
         NeoForge.EVENT_BUS.register(this);
     }
 
