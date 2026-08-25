@@ -1,8 +1,10 @@
 package com.noahbelstad.create_enriched;
 
+import com.noahbelstad.create_enriched.block.CreateEnrichedBlocks;
 import com.noahbelstad.create_enriched.fluid.CreateEnrichedFluids;
 
 import com.mojang.logging.LogUtils;
+import com.noahbelstad.create_enriched.item.CreateEnrichedItems;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -22,6 +24,8 @@ public class CreateEnriched {
 
     public CreateEnriched(IEventBus modEventBus, ModContainer modContainer) {
         CreateEnrichedFluids.init(modEventBus);
+        CreateEnrichedItems.init(modEventBus);
+        CreateEnrichedBlocks.init(modEventBus);
         NeoForge.EVENT_BUS.register(this);
     }
 
