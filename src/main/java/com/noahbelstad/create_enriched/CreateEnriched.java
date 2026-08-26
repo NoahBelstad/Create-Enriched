@@ -2,10 +2,12 @@ package com.noahbelstad.create_enriched;
 
 import com.noahbelstad.create_enriched.block.BoilerBlockEntity;
 import com.noahbelstad.create_enriched.block.CreateEnrichedBlocks;
+import com.noahbelstad.create_enriched.block.SmallSteamGeneratorBlockEntity;
 import com.noahbelstad.create_enriched.fluid.CreateEnrichedFluids;
 import com.noahbelstad.create_enriched.item.CreateEnrichedItems;
 
 import com.mojang.logging.LogUtils;
+import com.simibubi.create.api.stress.BlockStressValues;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -30,7 +32,8 @@ public class CreateEnriched {
         CreateEnrichedItems.init(modEventBus);
         CreateEnrichedBlocks.init(modEventBus);
 
-        // Registered to the MOD bus so NeoForge hooks up fluid capabilities to all boiler blocks
+        modEventBus.addListener(this::commonSetup);
+
         modEventBus.addListener(this::registerCapabilities);
 
         NeoForge.EVENT_BUS.register(this);
@@ -47,9 +50,25 @@ public class CreateEnriched {
                     return null;
                 }
         );
+        event.registerBlockEntity(
+                Capabilities.FluidHandler.BLOCK,
+                CreateEnrichedBlocks.SMALL_STEAM_GENERATOR_BE.get(),
+                (be, side) -> {
+                    if (be instanceof SmallSteamGeneratorBlockEntity generator) {
+                        return generator.getFluidHandlerForSide(side);
+                    }
+                    return null;
+                }
+        );
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            BlockStressValues.CAPACITIES.register(
+                    CreateEnrichedBlocks.SMALL_STEAM_GENERATOR_BLOCK.get(),
+                    () -> 2304.0D
+            );
+        });
         LOGGER.info("Create enriched common");
     }
 
