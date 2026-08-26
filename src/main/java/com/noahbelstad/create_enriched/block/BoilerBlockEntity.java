@@ -1,6 +1,5 @@
 package com.noahbelstad.create_enriched.block;
 
-import com.noahbelstad.create_enriched.CreateEnriched;
 import com.noahbelstad.create_enriched.fluid.CreateEnrichedFluids;
 import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
@@ -10,6 +9,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluids;
@@ -20,7 +20,6 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import java.util.List;
 
 public class BoilerBlockEntity extends FluidTankBlockEntity {
-    // Shared conversion multiplier variable (mB/t per heat level)
     public static final int BASE_CONVERSION_RATE = 14;
 
     protected FluidTank waterBuffer = new FluidTank(8000);
@@ -29,8 +28,9 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
     private int tickCounter = 0;
     private int heatLevel = 0;
 
-    public BoilerBlockEntity(BlockPos pos, BlockState state) {
-        super(CreateEnrichedBlocks.BOILER_BE.get(), pos, state);
+    // Added explicit Type parameter constructor for Registrate mapping
+    public BoilerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
     }
 
     @Override
@@ -53,7 +53,6 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
         if (level != null && !level.isClientSide && isController()) {
             tickCounter++;
 
-            // Recalculate heat every tick & sync immediately if heat state changes
             int currentHeat = calculateHeatUnderneath();
             if (currentHeat != heatLevel) {
                 heatLevel = currentHeat;
@@ -61,32 +60,25 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
                 sendData();
             }
 
-            // Conversion: Water -> Steam
             if (heatLevel > 0 && !waterBuffer.isEmpty()) {
                 int maxConversionRate = heatLevel * BASE_CONVERSION_RATE;
 
-                if (tankInventory.isEmpty() || tankInventory.getFluid().is(CreateEnrichedFluids.STEAM_LIQUID_STILL.get())) {
+                if (tankInventory.isEmpty() || tankInventory.getFluid().is(CreateEnrichedFluids.STEAM_LIQUID.get())) {
                     int spaceForSteam = tankInventory.getCapacity() - tankInventory.getFluidAmount();
                     int actualConversion = Math.min(maxConversionRate, Math.min(waterBuffer.getFluidAmount(), spaceForSteam));
 
                     if (actualConversion > 0) {
                         waterBuffer.drain(actualConversion, IFluidHandler.FluidAction.EXECUTE);
-                        tankInventory.fill(new FluidStack(CreateEnrichedFluids.STEAM_LIQUID_STILL.get(), actualConversion), IFluidHandler.FluidAction.EXECUTE);
+                        tankInventory.fill(new FluidStack(CreateEnrichedFluids.STEAM_LIQUID.get(), actualConversion), IFluidHandler.FluidAction.EXECUTE);
 
                         setChanged();
-                        sendData(); // Syncs Goggles UI continuously during conversion
+                        sendData();
                     }
                 }
             }
         }
     }
 
-    /**
-     * Standard Create Mod Boiler Logic:
-     * - Passive sources (Campfires, Smouldering Burners, Lava) = Level 1 Total Heat
-     * - Kindled Burners (Fueled) = +1 Level each
-     * - Seething Burners (Blaze Cake) = +2 Levels each
-     */
     public int calculateHeatUnderneath() {
         if (level == null) return 0;
         int activeHeat = 0;
@@ -120,7 +112,7 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
         if (activeHeat > 0) {
             return activeHeat;
         } else if (hasPassiveHeat) {
-            return 1; // Baseline Level 1 for passive heat
+            return 1;
         }
 
         return 0;
@@ -195,7 +187,7 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
         @Override
         public boolean isFluidValid(int tank, FluidStack stack) {
             if (tank == 0) return stack.is(Fluids.WATER);
-            if (tank == 1) return stack.is(CreateEnrichedFluids.STEAM_LIQUID_STILL.get());
+            if (tank == 1) return stack.is(CreateEnrichedFluids.STEAM_LIQUID.get());
             return false;
         }
 
@@ -208,7 +200,7 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
                 int filled = c.waterBuffer.fill(resource, action);
                 if (filled > 0 && action.execute()) {
                     c.setChanged();
-                    c.sendData(); // Sync Goggles UI immediately when water enters
+                    c.sendData();
                 }
                 return filled;
             }
@@ -220,8 +212,7 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
             if (resource.isEmpty()) return FluidStack.EMPTY;
             BoilerBlockEntity c = getController();
 
-            // Only allow draining steam from the tank inventory. Water cannot be drained externally.
-            if (resource.is(CreateEnrichedFluids.STEAM_LIQUID_STILL.get())) {
+            if (resource.is(CreateEnrichedFluids.STEAM_LIQUID.get())) {
                 FluidStack drained = c.tankInventory.drain(resource, action);
                 if (!drained.isEmpty() && action.execute()) {
                     c.setChanged();
@@ -237,8 +228,6 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
         public FluidStack drain(int maxDrain, FluidAction action) {
             BoilerBlockEntity c = getController();
 
-            // Only allow draining from the steam tank inventory.
-            // This stops pumps from pulling raw water out of the waterBuffer.
             if (!c.tankInventory.isEmpty()) {
                 FluidStack drained = c.tankInventory.drain(maxDrain, action);
                 if (!drained.isEmpty() && action.execute()) {
