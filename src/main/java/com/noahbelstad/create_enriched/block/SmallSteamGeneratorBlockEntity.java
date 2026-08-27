@@ -20,13 +20,15 @@ import java.util.List;
 public class SmallSteamGeneratorBlockEntity extends GeneratingKineticBlockEntity implements IHaveGoggleInformation {
 
     private static final float GENERATED_RPM = 128.0f;
-    private static final int TARGET_STEAM_CONSUMPTION = 126;
-    private static final int BUFFER_START_THRESHOLD = 2000;
-    private static final int TANK_CAPACITY = 2500; // Optimized buffer size for equal pipe sharing
+    private static final int BATCH_INTERVAL = 5; // Ticks per consumption cycle
+    private static final int TARGET_STEAM_PER_TICK = 126;
+    private static final int TARGET_STEAM_PER_BATCH = TARGET_STEAM_PER_TICK * BATCH_INTERVAL; // 630 mB per 5 ticks
+    private static final int TANK_CAPACITY = 2500;
 
     private boolean active = false;
     private float stressMultiplier = 0.0f;
     private int fluidDrainedLastTick = 0;
+    private int batchTimer = 0;
 
     private final FluidTank internalTank = new FluidTank(TANK_CAPACITY) {
         @Override
@@ -61,37 +63,40 @@ public class SmallSteamGeneratorBlockEntity extends GeneratingKineticBlockEntity
             return;
         }
 
+        batchTimer++;
+
+        // Process steam drain once every 5 ticks
+        if (batchTimer >= BATCH_INTERVAL) {
+            batchTimer = 0;
+            processBatch();
+        }
+    }
+
+    private void processBatch() {
         int availableFluid = internalTank.getFluidAmount();
 
-        // Startup Hysteresis: Requires 2000 mB to turn on, runs until completely dry (0 mB)
-        if (!active && availableFluid >= BUFFER_START_THRESHOLD) {
-            active = true;
-            updateGeneratedRotation();
-            notifyUpdate();
-        } else if (active && availableFluid <= 0) {
-            active = false;
-            stressMultiplier = 0.0f;
-            fluidDrainedLastTick = 0;
-            updateGeneratedRotation();
-            notifyUpdate();
-            return;
-        }
+        if (availableFluid > 0) {
+            int amountToDrain = Math.min(availableFluid, TARGET_STEAM_PER_BATCH);
+            internalTank.drain(amountToDrain, IFluidHandler.FluidAction.EXECUTE);
 
-        if (active) {
-            int amountToDrain = Math.min(availableFluid, TARGET_STEAM_CONSUMPTION);
-            float newMultiplier = 0.0f;
+            // Calculate average mB/t for tooltips
+            fluidDrainedLastTick = amountToDrain / BATCH_INTERVAL;
+            float newMultiplier = (float) amountToDrain / (float) TARGET_STEAM_PER_BATCH;
 
-            if (amountToDrain > 0) {
-                internalTank.drain(amountToDrain, IFluidHandler.FluidAction.EXECUTE);
-                fluidDrainedLastTick = amountToDrain;
-                newMultiplier = (float) amountToDrain / (float) TARGET_STEAM_CONSUMPTION;
-            } else {
-                fluidDrainedLastTick = 0;
+            if (!active) {
+                active = true;
             }
 
-            // Sync rotation network & client goggles if burn rate shifts significantly
-            if (Math.abs(newMultiplier - stressMultiplier) > 0.01f) {
+            if (Math.abs(newMultiplier - stressMultiplier) > 0.001f) {
                 stressMultiplier = newMultiplier;
+                updateGeneratedRotation();
+                notifyUpdate();
+            }
+        } else {
+            fluidDrainedLastTick = 0;
+            if (active || stressMultiplier != 0.0f) {
+                active = false;
+                stressMultiplier = 0.0f;
                 updateGeneratedRotation();
                 notifyUpdate();
             }
@@ -117,8 +122,6 @@ public class SmallSteamGeneratorBlockEntity extends GeneratingKineticBlockEntity
     public float calculateAddedStressCapacity() {
         float baseCapacityPerRpm = super.calculateAddedStressCapacity();
         float rawTotalSU = baseCapacityPerRpm * GENERATED_RPM * stressMultiplier;
-
-        // Guarantees clean integer SU on Create network tooltips
         float roundedTotalSU = Math.round(rawTotalSU);
         return roundedTotalSU / GENERATED_RPM;
     }
@@ -140,11 +143,7 @@ public class SmallSteamGeneratorBlockEntity extends GeneratingKineticBlockEntity
 
         tooltip.add(Component.literal("     ")
                 .append(Component.literal("Max Burn Rate: ").withStyle(ChatFormatting.GRAY))
-                .append(Component.literal(TARGET_STEAM_CONSUMPTION + " mB/t").withStyle(ChatFormatting.GOLD)));
-
-        tooltip.add(Component.literal("     ")
-                .append(Component.literal("Buffer Tank: ").withStyle(ChatFormatting.GRAY))
-                .append(Component.literal(internalTank.getFluidAmount() + " / " + TANK_CAPACITY + " mB").withStyle(ChatFormatting.AQUA)));
+                .append(Component.literal(TARGET_STEAM_PER_TICK + " mB/t").withStyle(ChatFormatting.GOLD)));
 
         return true;
     }
@@ -170,6 +169,7 @@ public class SmallSteamGeneratorBlockEntity extends GeneratingKineticBlockEntity
         tag.putBoolean("Active", active);
         tag.putFloat("StressMultiplier", stressMultiplier);
         tag.putInt("FluidDrainedLastTick", fluidDrainedLastTick);
+        tag.putInt("BatchTimer", batchTimer);
         internalTank.writeToNBT(registries, tag);
     }
 
@@ -179,6 +179,7 @@ public class SmallSteamGeneratorBlockEntity extends GeneratingKineticBlockEntity
         active = tag.getBoolean("Active");
         stressMultiplier = tag.getFloat("StressMultiplier");
         fluidDrainedLastTick = tag.getInt("FluidDrainedLastTick");
+        batchTimer = tag.getInt("BatchTimer");
         internalTank.readFromNBT(registries, tag);
     }
 }

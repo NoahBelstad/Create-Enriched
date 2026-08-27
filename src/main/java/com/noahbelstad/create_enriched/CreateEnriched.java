@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.noahbelstad.create_enriched.block.CreateEnrichedBlocks;
 import com.noahbelstad.create_enriched.fluid.CreateEnrichedFluids;
 import com.noahbelstad.create_enriched.item.CreateEnrichedItems;
+import com.noahbelstad.create_enriched.worldgen.CreateEnrichedFeatures;
 import com.simibubi.create.api.stress.BlockStressValues;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import net.neoforged.api.distmarker.Dist;
@@ -32,6 +33,7 @@ public class CreateEnriched {
         CreateEnrichedFluids.init();
         CreateEnrichedItems.init();
         CreateEnrichedBlocks.init();
+        CreateEnrichedFeatures.register(modEventBus);
 
         modEventBus.addListener(this::registerCapabilities);
         modEventBus.addListener(this::commonSetup);
@@ -42,7 +44,7 @@ public class CreateEnriched {
         event.enqueueWork(() -> {
             BlockStressValues.CAPACITIES.register(
                     CreateEnrichedBlocks.SMALL_STEAM_GENERATOR_BLOCK.get(),
-                    () -> 2304.0D
+                    () -> 1728
             );
         });
         LOGGER.info("Create enriched common");
