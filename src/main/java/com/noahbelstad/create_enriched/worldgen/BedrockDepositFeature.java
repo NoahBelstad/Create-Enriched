@@ -39,7 +39,7 @@ public class BedrockDepositFeature extends Feature<NoneFeatureConfiguration> {
 
         // Replaces only the top-level bedrock block
         if (topBedrockPos != null) {
-            level.setBlock(topBedrockPos, CreateEnrichedBlocks.BEDROCK_DEPOSIT_BLOCK.getDefaultState(), 2);
+            level.setBlock(topBedrockPos, CreateEnrichedBlocks.BEDROCK_STEAM_VENT_BLOCK.getDefaultState(), 2);
             return true;
         }
 

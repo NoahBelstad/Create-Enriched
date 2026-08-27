@@ -12,8 +12,8 @@ public class CreateEnrichedFeatures {
     public static final DeferredRegister<Feature<?>> FEATURES =
             DeferredRegister.create(Registries.FEATURE, CreateEnriched.MODID);
 
-    public static final DeferredHolder<Feature<?>, BedrockDepositFeature> BEDROCK_DEPOSIT =
-            FEATURES.register("bedrock_deposit", BedrockDepositFeature::new);
+    public static final DeferredHolder<Feature<?>, BedrockDepositFeature> BEDROCK_STEAM_VENT =
+            FEATURES.register("bedrock_steam_vent", BedrockDepositFeature::new);
 
     public static void register(IEventBus modEventBus) {
         FEATURES.register(modEventBus);
