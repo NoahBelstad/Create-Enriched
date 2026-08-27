@@ -25,7 +25,7 @@ import java.util.List;
 
 public class BedrockSteamVentBlockEntity extends BlockEntity implements IHaveGoggleInformation {
 
-    private static final int PRODUCTION_RATE = 10; // mB per tick
+    private static final int PRODUCTION_RATE = 40; // mB per tick
 
     private final FluidTank tank = new FluidTank(2500) {
         @Override
@@ -50,13 +50,13 @@ public class BedrockSteamVentBlockEntity extends BlockEntity implements IHaveGog
     public void tick(Level level, BlockPos pos, BlockState state) {
         if (level.isClientSide) return;
 
+        // Produce Steam continuously up to capacity
         if (tank.getFluidAmount() < tank.getCapacity()) {
             Fluid steamFluid = getSteamFluid();
             if (steamFluid != null) {
                 int filled = tank.fill(new FluidStack(steamFluid, PRODUCTION_RATE), IFluidHandler.FluidAction.EXECUTE);
                 if (filled > 0) {
                     setChanged();
-                    // Notifies clients in chunk range to re-sync block entity tag
                     level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
                 }
             }
@@ -83,7 +83,7 @@ public class BedrockSteamVentBlockEntity extends BlockEntity implements IHaveGog
         FluidStack fluid = tank.getFluid();
         Component fluidName = fluid.isEmpty()
                 ? Component.literal("Empty")
-                : fluid.getHoverName(); // Uses localized fluid display name
+                : fluid.getHoverName();
 
         tooltip.add(Component.literal("  ").append(Component.literal("Stored: ").withStyle(ChatFormatting.GRAY))
                 .append(Component.literal(tank.getFluidAmount() + " / " + tank.getCapacity() + " mB").withStyle(ChatFormatting.GOLD))
