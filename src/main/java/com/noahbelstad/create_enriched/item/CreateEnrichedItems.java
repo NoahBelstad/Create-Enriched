@@ -9,6 +9,11 @@ public class CreateEnrichedItems {
             .item("boiler_converter", BoilerConverterItem::new)
             .register();
 
+    public static final ItemEntry<BedrockDetectorItem> BEDROCK_DETECTOR = CreateEnriched.REGISTRATE
+            .item("bedrock_detector", BedrockDetectorItem::new)
+            .properties(p -> p.stacksTo(1))
+            .register();
+
     public static void init() {
     }
 }

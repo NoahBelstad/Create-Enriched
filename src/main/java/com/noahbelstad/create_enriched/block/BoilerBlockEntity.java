@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -21,6 +22,8 @@ import java.util.List;
 
 public class BoilerBlockEntity extends FluidTankBlockEntity {
     public static final int BASE_CONVERSION_RATE = 14;
+    public static final int BLOCKS_PER_HEAT_LEVEL = 4;
+    public static final int MAX_HEAT_LEVEL = 18;
 
     protected FluidTank waterBuffer = new FluidTank(8000);
     private final BoilerFluidHandler customFluidHandler = new BoilerFluidHandler(this);
@@ -28,7 +31,11 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
     private int tickCounter = 0;
     private int heatLevel = 0;
 
-    // Added explicit Type parameter constructor for Registrate mapping
+    // Rate Tracking Fields
+    private int actualBoilRate = 0;
+    private int waterInputRate = 0;
+    private int waterInputAccumulator = 0;
+
     public BoilerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
@@ -46,6 +53,22 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
         return customFluidHandler;
     }
 
+    public void recordWaterInput(int amount) {
+        if (isController()) {
+            waterInputAccumulator += amount;
+        } else if (getControllerBE() instanceof BoilerBlockEntity controller) {
+            controller.waterInputAccumulator += amount;
+        }
+    }
+
+    public int getMaxBoilRate() {
+        int heatMaxRate = heatLevel * BASE_CONVERSION_RATE;
+        int totalTankBlocks = getWidth() * getWidth() * getHeight();
+        int sizeMaxRate = (totalTankBlocks * BASE_CONVERSION_RATE) / BLOCKS_PER_HEAT_LEVEL;
+
+        return Math.min(heatMaxRate, sizeMaxRate);
+    }
+
     @Override
     public void tick() {
         super.tick();
@@ -60,8 +83,11 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
                 sendData();
             }
 
+            int lastBoilRate = actualBoilRate;
+            actualBoilRate = 0;
+
             if (heatLevel > 0 && !waterBuffer.isEmpty()) {
-                int maxConversionRate = heatLevel * BASE_CONVERSION_RATE;
+                int maxConversionRate = getMaxBoilRate();
 
                 if (tankInventory.isEmpty() || tankInventory.getFluid().is(CreateEnrichedFluids.STEAM_LIQUID.get())) {
                     int spaceForSteam = tankInventory.getCapacity() - tankInventory.getFluidAmount();
@@ -71,10 +97,18 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
                         waterBuffer.drain(actualConversion, IFluidHandler.FluidAction.EXECUTE);
                         tankInventory.fill(new FluidStack(CreateEnrichedFluids.STEAM_LIQUID.get(), actualConversion), IFluidHandler.FluidAction.EXECUTE);
 
-                        setChanged();
-                        sendData();
+                        actualBoilRate = actualConversion;
                     }
                 }
+            }
+
+            // Cycle water input tracking per tick
+            waterInputRate = waterInputAccumulator;
+            waterInputAccumulator = 0;
+
+            if (lastBoilRate != actualBoilRate || waterInputRate > 0) {
+                setChanged();
+                sendData();
             }
         }
     }
@@ -118,23 +152,72 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
         return 0;
     }
 
+    private Component buildCleanBar(String label, int current, int max, String unit, int barLength, ChatFormatting fillColor, boolean showPercent) {
+        float progress = max > 0 ? Math.min(1.0f, Math.max(0.0f, (float) current / max)) : 0;
+        int filled = Math.round(progress * barLength);
+        int empty = barLength - filled;
+
+        String paddedLabel = switch (label) {
+            case "Boil Rate" -> "Boil Rate  ";
+            case "Water"     -> "Water      ";
+            case "Steam Tank" -> "Steam Tank ";
+            default          -> String.format("%-11s", label);
+        };
+
+        String barFilled = "█".repeat(filled);
+        String barEmpty = "░".repeat(empty);
+
+        int percent = max > 0 ? (int) (((float) current / max) * 100) : 0;
+        String numberStr = current + " / " + max + (unit.isEmpty() ? "" : " " + unit);
+        if (showPercent) {
+            numberStr += " (" + percent + "%)";
+        }
+
+        MutableComponent line = Component.literal("    " + paddedLabel + ": ").withStyle(ChatFormatting.GRAY);
+        line.append(Component.literal("[").withStyle(ChatFormatting.DARK_GRAY));
+        if (filled > 0) {
+            line.append(Component.literal(barFilled).withStyle(fillColor));
+        }
+        if (empty > 0) {
+            line.append(Component.literal(barEmpty).withStyle(ChatFormatting.DARK_GRAY));
+        }
+        line.append(Component.literal("] ").withStyle(ChatFormatting.DARK_GRAY));
+        line.append(Component.literal(numberStr).withStyle(ChatFormatting.WHITE));
+        return line;
+    }
+
     @Override
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
         BoilerBlockEntity controller = (BoilerBlockEntity) getControllerBE();
         if (controller == null) controller = this;
 
         int heat = controller.heatLevel;
-        int rate = heat * BASE_CONVERSION_RATE;
+        int maxRate = controller.getMaxBoilRate();
+        int totalTankBlocks = controller.getWidth() * controller.getWidth() * controller.getHeight();
+        int sizeMaxRate = (totalTankBlocks * BASE_CONVERSION_RATE) / BLOCKS_PER_HEAT_LEVEL;
+        int potentialHeatRate = heat * BASE_CONVERSION_RATE;
 
-        tooltip.add(Component.literal("  ").append(Component.literal("Boiler Stats").withStyle(ChatFormatting.GOLD)));
+        // Reduced from 6 spaces to 5 spaces to pull text closer to goggles icon
+        tooltip.add(Component.literal("    ").append(Component.literal("Boiler Stats").withStyle(ChatFormatting.GOLD)));
+
+        // Heat Level
         tooltip.add(Component.literal("    Heat Level: ").withStyle(ChatFormatting.GRAY)
-                .append(Component.literal(String.valueOf(heat)).withStyle(ChatFormatting.YELLOW)));
-        tooltip.add(Component.literal("    Boil Rate: ").withStyle(ChatFormatting.GRAY)
-                .append(Component.literal(rate + " mB/t").withStyle(ChatFormatting.GREEN)));
-        tooltip.add(Component.literal("    Water Buffer: ").withStyle(ChatFormatting.GRAY)
-                .append(Component.literal(controller.waterBuffer.getFluidAmount() + " / " + controller.waterBuffer.getCapacity() + " mB").withStyle(ChatFormatting.AQUA)));
-        tooltip.add(Component.literal("    Steam Output: ").withStyle(ChatFormatting.GRAY)
-                .append(Component.literal(controller.tankInventory.getFluidAmount() + " / " + controller.tankInventory.getCapacity() + " mB").withStyle(ChatFormatting.WHITE)));
+                .append(Component.literal(heat + " / " + MAX_HEAT_LEVEL).withStyle(ChatFormatting.YELLOW)));
+
+        // Boil Rate
+        tooltip.add(buildCleanBar("Boil Rate", controller.actualBoilRate, maxRate, "mB/t", 10, ChatFormatting.GREEN, false));
+
+        // Water
+        tooltip.add(buildCleanBar("Water", controller.waterInputRate, maxRate, "mB/t", 10, ChatFormatting.AQUA, true));
+
+        // Steam Tank Output
+        int steamAmount = controller.tankInventory.getFluidAmount();
+        int steamCap = controller.tankInventory.getCapacity();
+        tooltip.add(buildCleanBar("Steam Tank", steamAmount, steamCap, "mB", 10, ChatFormatting.WHITE, false));
+
+        if (sizeMaxRate < potentialHeatRate) {
+            tooltip.add(Component.literal("    (!) Tank size limits output").withStyle(ChatFormatting.RED));
+        }
 
         return true;
     }
@@ -144,6 +227,8 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
         super.write(compound, registries, clientPacket);
         compound.put("WaterBuffer", waterBuffer.writeToNBT(registries, new CompoundTag()));
         compound.putInt("HeatLevel", heatLevel);
+        compound.putInt("ActualBoilRate", actualBoilRate);
+        compound.putInt("WaterInputRate", waterInputRate);
     }
 
     @Override
@@ -151,6 +236,8 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
         super.read(compound, registries, clientPacket);
         waterBuffer.readFromNBT(registries, compound.getCompound("WaterBuffer"));
         heatLevel = compound.getInt("HeatLevel");
+        actualBoilRate = compound.getInt("ActualBoilRate");
+        waterInputRate = compound.getInt("WaterInputRate");
     }
 
     public static class BoilerFluidHandler implements IFluidHandler {
@@ -199,6 +286,7 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
             if (resource.is(Fluids.WATER)) {
                 int filled = c.waterBuffer.fill(resource, action);
                 if (filled > 0 && action.execute()) {
+                    c.recordWaterInput(filled);
                     c.setChanged();
                     c.sendData();
                 }

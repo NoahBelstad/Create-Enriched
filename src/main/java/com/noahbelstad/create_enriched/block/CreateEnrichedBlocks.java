@@ -4,8 +4,20 @@ import com.noahbelstad.create_enriched.CreateEnriched;
 import com.simibubi.create.foundation.data.AssetLookup;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public class CreateEnrichedBlocks {
+
+    // --- BEDROCK DEPOSIT BLOCK ---
+    public static final BlockEntry<Block> BEDROCK_DEPOSIT_BLOCK = CreateEnriched.REGISTRATE
+            .block("bedrock_deposit", Block::new)
+            .initialProperties(() -> Blocks.BEDROCK)
+            .properties(p -> p.destroyTime(-1.0f).explosionResistance(3600000.0f).noLootTable())
+            .blockstate((c, p) -> p.simpleBlock(c.get()))
+            .simpleItem()
+            .register();
 
     // --- BOILER ---
     public static final BlockEntry<BoilerBlock> BOILER_BLOCK = CreateEnriched.REGISTRATE
