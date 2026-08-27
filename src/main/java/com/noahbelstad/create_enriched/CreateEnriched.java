@@ -66,6 +66,12 @@ public class CreateEnriched {
     private void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(
                 net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK,
+                CreateEnrichedBlocks.BEDROCK_STEAM_VENT_BE.get(),
+                (be, side) -> be.getTank()
+        );
+
+        event.registerBlockEntity(
+                net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK,
                 CreateEnrichedBlocks.BOILER_BE.get(),
                 (be, side) -> be.getCustomFluidHandler()
         );

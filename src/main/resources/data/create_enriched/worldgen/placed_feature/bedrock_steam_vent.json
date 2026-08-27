@@ -1,5 +1,5 @@
 {
-  "feature": "create_enriched:bedrock_deposit",
+  "feature": "create_enriched:bedrock_steam_vent",
   "placement": [
     {
       "type": "minecraft:rarity_filter",

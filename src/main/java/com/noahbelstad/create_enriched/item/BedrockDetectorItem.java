@@ -33,7 +33,7 @@ public class BedrockDetectorItem extends Item {
                 for (int z = -radius; z <= radius; z++) {
                     for (int y = minY; y <= maxY; y++) {
                         BlockPos checkPos = new BlockPos(playerPos.getX() + x, y, playerPos.getZ() + z);
-                        if (level.isLoaded(checkPos) && level.getBlockState(checkPos).is(CreateEnrichedBlocks.BEDROCK_DEPOSIT_BLOCK.get())) {
+                        if (level.isLoaded(checkPos) && level.getBlockState(checkPos).is(CreateEnrichedBlocks.BEDROCK_STEAM_VENT_BLOCK.get())) {
                             double distSq = playerPos.distSqr(checkPos);
                             if (distSq < minDistanceSq) {
                                 minDistanceSq = distSq;
@@ -47,13 +47,13 @@ public class BedrockDetectorItem extends Item {
             if (closestPos != null) {
                 int distance = (int) Math.sqrt(minDistanceSq);
                 serverPlayer.sendSystemMessage(
-                        Component.literal("Found Bedrock Deposit at [")
+                        Component.literal("Found Bedrock Steam Vent at [")
                                 .append(Component.literal(closestPos.getX() + ", " + closestPos.getY() + ", " + closestPos.getZ()).withStyle(ChatFormatting.GREEN))
                                 .append("] (" + distance + " blocks away)")
                 );
             } else {
                 serverPlayer.sendSystemMessage(
-                        Component.literal("No Bedrock Deposit found within " + radius + " blocks of loaded chunks.").withStyle(ChatFormatting.RED)
+                        Component.literal("No Bedrock Steam Vent found within " + radius + " blocks of loaded chunks.").withStyle(ChatFormatting.RED)
                 );
             }
         }
