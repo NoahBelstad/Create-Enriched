@@ -2,8 +2,10 @@ package com.noahbelstad.create_enriched;
 
 import com.mojang.logging.LogUtils;
 import com.noahbelstad.create_enriched.block.CreateEnrichedBlocks;
+import com.noahbelstad.create_enriched.config.ReliableRemoverConfig;
 import com.noahbelstad.create_enriched.fluid.CreateEnrichedFluids;
 import com.noahbelstad.create_enriched.item.CreateEnrichedItems;
+import com.noahbelstad.create_enriched.tab.CreateEnrichedCreativeTabs;
 import com.noahbelstad.create_enriched.worldgen.CreateEnrichedFeatures;
 import com.simibubi.create.api.stress.BlockStressValues;
 import com.simibubi.create.foundation.data.CreateRegistrate;
@@ -30,6 +32,8 @@ public class CreateEnriched {
     public CreateEnriched(IEventBus modEventBus, ModContainer modContainer) {
         REGISTRATE.registerEventListeners(modEventBus);
 
+        CreateEnrichedCreativeTabs.init();
+
         CreateEnrichedFluids.init();
         CreateEnrichedItems.init();
         CreateEnrichedBlocks.init();
@@ -37,6 +41,9 @@ public class CreateEnriched {
 
         modEventBus.addListener(this::registerCapabilities);
         modEventBus.addListener(this::commonSetup);
+
+        new ReliableRemoverConfig().setupReliableRemoverConfig();
+
         NeoForge.EVENT_BUS.register(this);
     }
 

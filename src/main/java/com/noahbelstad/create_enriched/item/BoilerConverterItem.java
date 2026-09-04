@@ -28,7 +28,8 @@ public class BoilerConverterItem extends Item {
         BlockEntity be = level.getBlockEntity(pos);
         Player player = context.getPlayer();
 
-        if (be instanceof FluidTankBlockEntity tankBE) {
+        // Check if it's a fluid tank, but explicitly NOT an already converted boiler block entity
+        if (be instanceof FluidTankBlockEntity tankBE && !(be instanceof BoilerBlockEntity)) {
             if (!level.isClientSide) {
                 FluidTankBlockEntity controller = tankBE.getControllerBE();
                 if (controller == null) {
