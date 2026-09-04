@@ -2,8 +2,9 @@
   "type": "create:mixing",
   "ingredients": [
     {
+      "type": "neoforge:single",
       "amount": 250,
-      "id": "create_enriched:low_purity_sulfur_dioxide"
+      "fluid": "create_enriched:low_purity_sulfur_dioxide"
     },
     {
       "item": "create_enriched:platinum_nugget"
@@ -11,12 +12,12 @@
   ],
   "results": [
     {
-      "id": "create_enriched:low_purity_sulfur_trioxide",
-      "amount": 250
+      "amount": 250,
+      "id": "create_enriched:low_purity_sulfur_trioxide"
     },
     {
-      "item": "create_enriched:platinum_nugget",
-      "chance": 1.0
+      "count": 1,
+      "id": "create_enriched:platinum_nugget"
     }
   ],
   "processingTime": 100
