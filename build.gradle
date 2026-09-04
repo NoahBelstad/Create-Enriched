@@ -21,6 +21,11 @@ repositories {
             includeGroup "maven.modrinth"
         }
     }
+
+    maven {
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
 }
 
 base {
@@ -81,6 +86,10 @@ dependencies {
     runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${minecraft_version}:${flywheel_version}")
     implementation("com.tterrag.registrate:Registrate:${registrate_version}")
     compileOnly "curse.maven:jei-238222:8392171"
+
+    compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
+    runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
 
     // Reliable Remover (Modrinth coordinates)
     implementation "maven.modrinth:reliable-remover:${reliable_remover_version}"
