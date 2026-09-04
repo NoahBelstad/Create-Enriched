@@ -19,6 +19,23 @@ public class CreateEnrichedItems {
             .item("limestone_dust", Item::new)
             .register();
 
+    // --- PLATINUM PROCESSING CHAIN ITEMS ---
+    public static final ItemEntry<Item> RAW_PLATINUM = CreateEnriched.REGISTRATE
+            .item("raw_platinum", Item::new)
+            .register();
+
+    public static final ItemEntry<Item> CRUSHED_PLATINUM = CreateEnriched.REGISTRATE
+            .item("crushed_platinum", Item::new)
+            .register();
+
+    public static final ItemEntry<Item> PLATINUM_INGOT = CreateEnriched.REGISTRATE
+            .item("platinum_ingot", Item::new)
+            .register();
+
+    public static final ItemEntry<Item> PLATINUM_NUGGET = CreateEnriched.REGISTRATE
+            .item("platinum_nugget", Item::new)
+            .register();
+
     public static void init() {
     }
 }
