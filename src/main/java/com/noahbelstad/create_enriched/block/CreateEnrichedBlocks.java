@@ -9,6 +9,13 @@ import net.minecraft.world.level.block.Blocks;
 
 public class CreateEnrichedBlocks {
 
+    public static final BlockEntry<Block> DEEPSLATE_THORIUM_ORE = CreateEnriched.REGISTRATE
+            .block("deepslate_thorium_ore", Block::new)
+            .initialProperties(() -> Blocks.DEEPSLATE)
+            .properties(p -> p.destroyTime(4.5f).explosionResistance(3.0f))
+            .simpleItem()
+            .register();
+
     public static final BlockEntry<BedrockSteamVentBlock> BEDROCK_STEAM_VENT_BLOCK = CreateEnriched.REGISTRATE
             .block("bedrock_steam_vent", BedrockSteamVentBlock::new)
             .initialProperties(() -> Blocks.BEDROCK)
