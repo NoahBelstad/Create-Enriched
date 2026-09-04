@@ -14,6 +14,27 @@ public class CreateEnrichedFluids {
             .properties(p -> p.density(-500).viscosity(100))
             .register();
 
+    public static final FluidEntry<VirtualFluid> LOW_PURITY_SULFUR_DIOXIDE = CreateEnriched.REGISTRATE
+            .virtualFluid("low_purity_sulfur_dioxide",
+                    ResourceLocation.withDefaultNamespace("block/water_still"),
+                    ResourceLocation.withDefaultNamespace("block/water_flow"))
+            .properties(p -> p.density(-500).viscosity(100))
+            .register();
+
+    public static final FluidEntry<VirtualFluid> LOW_PURITY_SULFUR_TRIOXIDE = CreateEnriched.REGISTRATE
+            .virtualFluid("low_purity_sulfur_trioxide",
+                    ResourceLocation.withDefaultNamespace("block/water_still"),
+                    ResourceLocation.withDefaultNamespace("block/water_flow"))
+            .properties(p -> p.density(-500).viscosity(100))
+            .register();
+
+    public static final FluidEntry<VirtualFluid> LOW_PURITY_SULFURIC_ACID = CreateEnriched.REGISTRATE
+            .virtualFluid("low_purity_sulfuric_acid",
+                    ResourceLocation.withDefaultNamespace("block/water_still"),
+                    ResourceLocation.withDefaultNamespace("block/water_flow"))
+            .properties(p -> p.density(-500).viscosity(100))
+            .register();
+
     public static void init() {
     }
 }

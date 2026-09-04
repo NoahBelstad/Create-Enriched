@@ -14,6 +14,13 @@ public class CreateEnrichedItems {
             .item("bedrock_detector", BedrockDetectorItem::new)
             .properties(p -> p.stacksTo(1))
             .register();
+    public static final ItemEntry<Item> RAW_SULFUR = CreateEnriched.REGISTRATE
+            .item("raw_sulfur", Item::new)
+            .register();
+
+    public static final ItemEntry<Item> SULFUR_DUST = CreateEnriched.REGISTRATE
+            .item("sulfur_dust", Item::new)
+            .register();
 
     public static final ItemEntry<Item> LIMESTONE_DUST = CreateEnriched.REGISTRATE
             .item("limestone_dust", Item::new)
