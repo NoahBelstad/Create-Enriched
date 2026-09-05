@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "create_enriched:bedrock_steam_vent",
+  "step": "underground_ores"
+}

@@ -1,0 +1,22 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "type": "neoforge:single",
+      "amount": 250,
+      "fluid": "create_enriched:low_purity_thorium_solution"
+    },
+    {
+      "item": "create_enriched:limestone_dust"
+    }
+  ],
+  "results": [
+    {
+      "id": "create_enriched:low_purity_enriched_thorium_dust"
+    },
+    {
+      "id": "create_enriched:dirty_thorium_dust"
+    }
+  ],
+  "processingTime": 150
+}
