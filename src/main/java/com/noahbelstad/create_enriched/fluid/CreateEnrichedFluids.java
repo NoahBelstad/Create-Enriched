@@ -35,6 +35,13 @@ public class CreateEnrichedFluids {
             .properties(p -> p.density(-500).viscosity(100))
             .register();
 
+    public static final FluidEntry<VirtualFluid> THORIUM_SOLUTION = CreateEnriched.REGISTRATE
+            .virtualFluid("thorium_solution",
+                    ResourceLocation.withDefaultNamespace("block/water_still"),
+                    ResourceLocation.withDefaultNamespace("block/water_flow"))
+            .properties(p -> p.density(500).viscosity(100))
+            .register();
+
     public static void init() {
     }
 }
