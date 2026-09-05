@@ -43,6 +43,30 @@ public class CreateEnrichedItems {
             .item("platinum_nugget", Item::new)
             .register();
 
+    public static final ItemEntry<Item> RAW_THORIUM_ORE = CreateEnriched.REGISTRATE
+            .item("raw_thorium_ore", Item::new)
+            .register();
+
+    public static final ItemEntry<Item> CRUSHED_THORIUM_ORE = CreateEnriched.REGISTRATE
+            .item("crushed_thorium_ore", Item::new)
+            .register();
+
+    public static final ItemEntry<Item> RAW_THORIUM_DUST = CreateEnriched.REGISTRATE
+            .item("raw_thorium_dust", Item::new)
+            .register();
+
+    public static final ItemEntry<Item> LOW_PURITY_ENRICHED_THORIUM_DUST = CreateEnriched.REGISTRATE
+            .item("low_purity_enriched_thorium_dust", Item::new)
+            .register();
+
+    public static final ItemEntry<Item> DIRTY_THORIUM_DUST = CreateEnriched.REGISTRATE
+            .item("dirty_thorium_dust", Item::new)
+            .register();
+
+    public static final ItemEntry<Item> LOW_PURITY_ENRICHED_THORIUM_PELLET = CreateEnriched.REGISTRATE
+            .item("low_purity_enriched_thorium_pellet", Item::new)
+            .register();
+
     public static void init() {
     }
 }

@@ -1,0 +1,15 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "create_enriched:raw_thorium_ore"
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "id": "create_enriched:crushed_thorium_ore",
+      "count": 1
+    }
+  ]
+}

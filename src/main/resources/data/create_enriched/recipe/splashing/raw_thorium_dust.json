@@ -1,0 +1,14 @@
+{
+  "type": "create:splashing",
+  "ingredients": [
+    {
+      "item": "create_enriched:crushed_thorium_ore"
+    }
+  ],
+  "results": [
+    {
+      "count": 1,
+      "id": "create_enriched:raw_thorium_dust"
+    }
+  ]
+}

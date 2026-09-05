@@ -1,0 +1,19 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    { "item": "create_enriched:low_purity_enriched_thorium_dust" },
+    { "item": "create_enriched:low_purity_enriched_thorium_dust" },
+    { "item": "create_enriched:low_purity_enriched_thorium_dust" },
+    { "item": "create_enriched:low_purity_enriched_thorium_dust" },
+    { "item": "create_enriched:low_purity_enriched_thorium_dust" },
+    { "item": "create_enriched:low_purity_enriched_thorium_dust" },
+    { "item": "create_enriched:low_purity_enriched_thorium_dust" },
+    { "item": "create_enriched:low_purity_enriched_thorium_dust" },
+    { "item": "create_enriched:low_purity_enriched_thorium_dust" }
+  ],
+  "results": [
+    {
+      "id": "create_enriched:low_purity_enriched_thorium_pellet"
+    }
+  ]
+}
