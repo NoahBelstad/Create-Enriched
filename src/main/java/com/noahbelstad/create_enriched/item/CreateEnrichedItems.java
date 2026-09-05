@@ -55,16 +55,16 @@ public class CreateEnrichedItems {
             .item("raw_thorium_dust", Item::new)
             .register();
 
-    public static final ItemEntry<Item> ENRICHED_THORIUM_DUST = CreateEnriched.REGISTRATE
-            .item("enriched_thorium_dust", Item::new)
+    public static final ItemEntry<Item> LOW_PURITY_ENRICHED_THORIUM_DUST = CreateEnriched.REGISTRATE
+            .item("low_purity_enriched_thorium_dust", Item::new)
             .register();
 
     public static final ItemEntry<Item> DIRTY_THORIUM_DUST = CreateEnriched.REGISTRATE
             .item("dirty_thorium_dust", Item::new)
             .register();
 
-    public static final ItemEntry<Item> ENRICHED_THORIUM_PELLET = CreateEnriched.REGISTRATE
-            .item("enriched_thorium_pellet", Item::new)
+    public static final ItemEntry<Item> LOW_PURITY_ENRICHED_THORIUM_PELLET = CreateEnriched.REGISTRATE
+            .item("low_purity_enriched_thorium_pellet", Item::new)
             .register();
 
     public static void init() {
