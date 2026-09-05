@@ -1,0 +1,21 @@
+## Description
+<!-- Provide a clear summary of the changes introduced by this PR. -->
+
+## Linked Issue
+Fixes #<!-- Issue number here, e.g. #42 -->
+
+## Type of Change
+- [ ] 🐛 Bug fix (non-breaking change fixing an issue)
+- [ ] ✨ New feature (non-breaking change adding functionality)
+- [ ] 💥 Breaking change (fix or feature causing existing functionality to fail)
+- [ ] 🛠️ Refactor / Performance improvement
+
+## Checklist
+- [ ] My code follows the style guidelines of this project
+- [ ] I have performed a self-review of my code
+- [ ] I have added automated unit/integration tests covering my changes
+- [ ] All new and existing tests pass locally (`./gradlew test`)
+- [ ] I have updated relevant documentation / specs
+
+## Screenshots / Verification
+<!-- If applicable, attach screenshots or describe how you tested the feature in-game. -->

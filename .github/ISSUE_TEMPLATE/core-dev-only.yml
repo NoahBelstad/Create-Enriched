@@ -19,13 +19,19 @@ body:
     validations:
       required: true
 
-  - type: checkboxes
-    id: checklist
+  - type: textarea
+    id: requirements
     attributes:
-      label: Acceptance Criteria
+      label: Functional Requirements
+      description: What specific behavior or capabilities must this core feature provide?
+      placeholder: "- Feature must...\n- API should expose..."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: task_scope
+    attributes:
+      label: Scope Verification
       options:
-        - label: Implementation complete
-        - label: New unit / integration tests created for all added features
-        - label: All existing and new tests passing locally and in CI
-        - label: Documentation / Specs updated
-        
+        - label: Ready for implementation
+        - label: Core architecture impact reviewed
