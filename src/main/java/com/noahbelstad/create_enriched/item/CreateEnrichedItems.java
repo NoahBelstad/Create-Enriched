@@ -67,6 +67,10 @@ public class CreateEnrichedItems {
             .item("low_purity_enriched_thorium_pellet", Item::new)
             .register();
 
+    public static final ItemEntry<Item> LOW_PURITY_GRAPHITE_ROD = CreateEnriched.REGISTRATE
+            .item("low_purity_graphite_rod", Item::new)
+            .register();
+
     public static void init() {
     }
 }

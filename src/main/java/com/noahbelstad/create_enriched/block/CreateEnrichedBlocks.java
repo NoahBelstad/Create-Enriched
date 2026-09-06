@@ -6,6 +6,7 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 
 public class CreateEnrichedBlocks {
 
@@ -59,6 +60,25 @@ public class CreateEnrichedBlocks {
             .initialProperties(() -> Blocks.STONE)
             .properties(p -> p.destroyTime(3.0f).explosionResistance(3.0f))
             .simpleItem()
+            .register();
+
+    // --- THORIUM REACTOR ---
+    public static final BlockEntry<ThoriumReactorCoreBlock> THORIUM_REACTOR_CORE_BLOCK = CreateEnriched.REGISTRATE
+            .block("thorium_reactor_core", ThoriumReactorCoreBlock::new)
+            .properties(p -> p.destroyTime(3.0f).explosionResistance(6.0f))
+            .blockstate((c, p) -> p.getVariantBuilder(c.get()).forAllStates(state -> {
+                boolean active = state.getValue(ThoriumReactorCoreBlock.ACTIVE);
+                String suffix = active ? "_powered" : "";
+                return ConfiguredModel.builder()
+                        .modelFile(p.models().getExistingFile(p.modLoc("block/thorium_reactor_core" + suffix)))
+                        .build();
+            }))
+            .simpleItem()
+            .register();
+
+    public static final BlockEntityEntry<ThoriumReactorCoreBlockEntity> THORIUM_REACTOR_BE = CreateEnriched.REGISTRATE
+            .blockEntity("thorium_reactor_core", ThoriumReactorCoreBlockEntity::new)
+            .validBlocks(THORIUM_REACTOR_CORE_BLOCK)
             .register();
 
     public static void init() {
