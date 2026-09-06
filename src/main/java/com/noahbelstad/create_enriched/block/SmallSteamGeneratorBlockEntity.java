@@ -20,10 +20,11 @@ import java.util.List;
 public class SmallSteamGeneratorBlockEntity extends GeneratingKineticBlockEntity implements IHaveGoggleInformation {
 
     private static final float GENERATED_RPM = 128.0f;
-    private static final int BATCH_INTERVAL = 5; // Ticks per consumption cycle
-    private static final int TARGET_STEAM_PER_TICK = 126;
-    private static final int TARGET_STEAM_PER_BATCH = TARGET_STEAM_PER_TICK * BATCH_INTERVAL; // 630 mB per 5 ticks
-    private static final int TANK_CAPACITY = 2500;
+    private static final int BATCH_INTERVAL = 5;
+    private static final int TARGET_STEAM_PER_TICK = 45; // Up to 45 mB/t max burn rate
+    private static final int TARGET_STEAM_PER_BATCH = TARGET_STEAM_PER_TICK * BATCH_INTERVAL; // 450 mB per 5 ticks
+    private static final float POWER_MULTIPLIER = 3.33333f; // Maintains exact same SU output per mB of steam
+    private static final int TANK_CAPACITY = 10000;
 
     private boolean active = false;
     private float stressMultiplier = 0.0f;
@@ -65,7 +66,6 @@ public class SmallSteamGeneratorBlockEntity extends GeneratingKineticBlockEntity
 
         batchTimer++;
 
-        // Process steam drain once every 5 ticks
         if (batchTimer >= BATCH_INTERVAL) {
             batchTimer = 0;
             processBatch();
@@ -79,7 +79,6 @@ public class SmallSteamGeneratorBlockEntity extends GeneratingKineticBlockEntity
             int amountToDrain = Math.min(availableFluid, TARGET_STEAM_PER_BATCH);
             internalTank.drain(amountToDrain, IFluidHandler.FluidAction.EXECUTE);
 
-            // Calculate average mB/t for tooltips
             fluidDrainedLastTick = amountToDrain / BATCH_INTERVAL;
             float newMultiplier = (float) amountToDrain / (float) TARGET_STEAM_PER_BATCH;
 
@@ -121,7 +120,7 @@ public class SmallSteamGeneratorBlockEntity extends GeneratingKineticBlockEntity
     @Override
     public float calculateAddedStressCapacity() {
         float baseCapacityPerRpm = super.calculateAddedStressCapacity();
-        float rawTotalSU = baseCapacityPerRpm * GENERATED_RPM * stressMultiplier;
+        float rawTotalSU = baseCapacityPerRpm * GENERATED_RPM * stressMultiplier * POWER_MULTIPLIER;
         float roundedTotalSU = Math.round(rawTotalSU);
         return roundedTotalSU / GENERATED_RPM;
     }

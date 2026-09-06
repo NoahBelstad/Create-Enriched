@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "create_enriched:graphite_ingot"
+    }
+  ],
+  "result": {
+    "id": "create_enriched:graphite_nugget",
+    "count": 3
+  }
+}

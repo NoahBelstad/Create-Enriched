@@ -1,0 +1,12 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    { "item": "create_enriched:coal_dust" },
+    { "item": "create_enriched:coal_dust" }
+  ],
+  "results": [
+    {
+      "id": "minecraft:coal"
+    }
+  ]
+}

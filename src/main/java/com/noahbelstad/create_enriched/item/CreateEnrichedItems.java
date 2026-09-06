@@ -67,6 +67,26 @@ public class CreateEnrichedItems {
             .item("low_purity_enriched_thorium_pellet", Item::new)
             .register();
 
+    public static final ItemEntry<Item> GRAPHITE_ROD = CreateEnriched.REGISTRATE
+            .item("graphite_rod", Item::new)
+            .register();
+
+    public static final ItemEntry<Item> GRAPHITE_DUST = CreateEnriched.REGISTRATE
+            .item("graphite_dust", Item::new)
+            .register();
+
+    public static final ItemEntry<Item> COAL_DUST = CreateEnriched.REGISTRATE
+            .item("coal_dust", Item::new)
+            .register();
+
+    public static final ItemEntry<Item> GRAPHITE_NUGGET = CreateEnriched.REGISTRATE
+            .item("graphite_nugget", Item::new)
+            .register();
+
+    public static final ItemEntry<Item> GRAPHITE_INGOT = CreateEnriched.REGISTRATE
+            .item("graphite_ingot", Item::new)
+            .register();
+
     public static void init() {
     }
 }
