@@ -21,17 +21,16 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import java.util.List;
 
 public class BoilerBlockEntity extends FluidTankBlockEntity {
-    public static final int BASE_CONVERSION_RATE = 14;
+    public static final int BASE_CONVERSION_RATE = 1; // 10 mB/t per heat level (Level 9 = 90 mB/t)
     public static final int BLOCKS_PER_HEAT_LEVEL = 4;
     public static final int MAX_HEAT_LEVEL = 18;
 
-    protected FluidTank waterBuffer = new FluidTank(8000);
+    protected FluidTank waterBuffer = new FluidTank(16000);
     private final BoilerFluidHandler customFluidHandler = new BoilerFluidHandler(this);
 
     private int tickCounter = 0;
     private int heatLevel = 0;
 
-    // Rate Tracking Fields
     private int actualBoilRate = 0;
     private int waterInputRate = 0;
     private int waterInputAccumulator = 0;
@@ -44,7 +43,7 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
     public void updateConnectivity() {
         super.updateConnectivity();
         if (isController()) {
-            int capacity = getWidth() * getWidth() * getHeight() * 8000;
+            int capacity = getWidth() * getWidth() * getHeight() * 16000;
             waterBuffer.setCapacity(capacity);
         }
     }
@@ -102,7 +101,6 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
                 }
             }
 
-            // Cycle water input tracking per tick
             waterInputRate = waterInputAccumulator;
             waterInputAccumulator = 0;
 
@@ -197,20 +195,14 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
         int sizeMaxRate = (totalTankBlocks * BASE_CONVERSION_RATE) / BLOCKS_PER_HEAT_LEVEL;
         int potentialHeatRate = heat * BASE_CONVERSION_RATE;
 
-        // Reduced from 6 spaces to 5 spaces to pull text closer to goggles icon
         tooltip.add(Component.literal("    ").append(Component.literal("Boiler Stats").withStyle(ChatFormatting.GOLD)));
 
-        // Heat Level
         tooltip.add(Component.literal("    Heat Level: ").withStyle(ChatFormatting.GRAY)
                 .append(Component.literal(heat + " / " + MAX_HEAT_LEVEL).withStyle(ChatFormatting.YELLOW)));
 
-        // Boil Rate
         tooltip.add(buildCleanBar("Boil Rate", controller.actualBoilRate, maxRate, "mB/t", 10, ChatFormatting.GREEN, false));
-
-        // Water
         tooltip.add(buildCleanBar("Water", controller.waterInputRate, maxRate, "mB/t", 10, ChatFormatting.AQUA, true));
 
-        // Steam Tank Output
         int steamAmount = controller.tankInventory.getFluidAmount();
         int steamCap = controller.tankInventory.getCapacity();
         tooltip.add(buildCleanBar("Steam Tank", steamAmount, steamCap, "mB", 10, ChatFormatting.WHITE, false));
