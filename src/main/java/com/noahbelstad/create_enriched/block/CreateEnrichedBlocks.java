@@ -62,7 +62,7 @@ public class CreateEnrichedBlocks {
             .simpleItem()
             .register();
 
-    // --- THORIUM REACTOR ---
+    // --- THORIUM REACTOR CORE ---
     public static final BlockEntry<ThoriumReactorCoreBlock> THORIUM_REACTOR_CORE_BLOCK = CreateEnriched.REGISTRATE
             .block("thorium_reactor_core", ThoriumReactorCoreBlock::new)
             .properties(p -> p.destroyTime(3.0f).explosionResistance(6.0f))
@@ -79,6 +79,19 @@ public class CreateEnrichedBlocks {
     public static final BlockEntityEntry<ThoriumReactorCoreBlockEntity> THORIUM_REACTOR_BE = CreateEnriched.REGISTRATE
             .blockEntity("thorium_reactor_core", ThoriumReactorCoreBlockEntity::new)
             .validBlocks(THORIUM_REACTOR_CORE_BLOCK)
+            .register();
+
+    // --- THORIUM REACTOR BOILER ---
+    public static final BlockEntry<ThoriumReactorBoilerBlock> THORIUM_REACTOR_BOILER_BLOCK = CreateEnriched.REGISTRATE
+            .block("thorium_reactor_boiler", ThoriumReactorBoilerBlock::new)
+            .properties(p -> p.destroyTime(3.0f).explosionResistance(6.0f))
+            .blockstate((c, p) -> p.simpleBlock(c.get(), AssetLookup.partialBaseModel(c, p)))
+            .simpleItem()
+            .register();
+
+    public static final BlockEntityEntry<ThoriumReactorBoilerBlockEntity> THORIUM_REACTOR_BOILER_BE = CreateEnriched.REGISTRATE
+            .blockEntity("thorium_reactor_boiler", ThoriumReactorBoilerBlockEntity::new)
+            .validBlocks(THORIUM_REACTOR_BOILER_BLOCK)
             .register();
 
     public static void init() {

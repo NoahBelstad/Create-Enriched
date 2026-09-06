@@ -90,6 +90,12 @@ public class CreateEnriched {
         );
 
         event.registerBlockEntity(
+                net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK,
+                CreateEnrichedBlocks.THORIUM_REACTOR_BOILER_BE.get(),
+                (be, side) -> be.getFluidHandler()
+        );
+
+        event.registerBlockEntity(
                 net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
                 CreateEnrichedBlocks.THORIUM_REACTOR_BE.get(),
                 (be, side) -> be.getAutomationHandler()
