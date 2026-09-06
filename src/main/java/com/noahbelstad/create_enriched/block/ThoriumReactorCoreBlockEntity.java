@@ -40,7 +40,7 @@ public class ThoriumReactorCoreBlockEntity extends BlockEntity implements IHaveG
     private final ItemStackHandler rodInventory = new ItemStackHandler(1) {
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return stack.is(CreateEnrichedItems.LOW_PURITY_GRAPHITE_ROD.get());
+            return stack.is(CreateEnrichedItems.GRAPHITE_ROD.get());
         }
 
         @Override
@@ -98,7 +98,7 @@ public class ThoriumReactorCoreBlockEntity extends BlockEntity implements IHaveG
 
     private boolean isActive = false;
     private int burnProgress = 0;
-    private final int maxBurnTime = 1200;
+    private final int maxBurnTime = 6000;
 
     public ThoriumReactorCoreBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
