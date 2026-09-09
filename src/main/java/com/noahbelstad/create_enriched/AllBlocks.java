@@ -10,12 +10,10 @@ import com.noahbelstad.create_enriched.content.steam.small_steam_generator.Small
 import com.noahbelstad.create_enriched.content.steam.small_steam_generator.SmallSteamGeneratorBlockEntity;
 import com.noahbelstad.create_enriched.content.steam.steam_vent.BedrockSteamVentBlock;
 import com.noahbelstad.create_enriched.content.steam.steam_vent.BedrockSteamVentBlockEntity;
-import com.simibubi.create.foundation.data.AssetLookup;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 
 public class AllBlocks {
 
@@ -42,7 +40,7 @@ public class AllBlocks {
     public static final BlockEntry<BoilerBlock> BOILER_BLOCK = CreateEnriched.REGISTRATE
             .block("boiler", BoilerBlock::new)
             .properties(p -> p.destroyTime(2.0f))
-            .blockstate((c, p) -> p.simpleBlock(c.get(), AssetLookup.partialBaseModel(c, p)))
+            .blockstate((c, p) -> p.simpleBlock(c.get()))
             .simpleItem()
             .register();
 
@@ -54,7 +52,7 @@ public class AllBlocks {
     public static final BlockEntry<SmallSteamGeneratorBlock> SMALL_STEAM_GENERATOR_BLOCK = CreateEnriched.REGISTRATE
             .block("small_steam_generator", SmallSteamGeneratorBlock::new)
             .properties(p -> p.destroyTime(3.0f).noOcclusion())
-            .blockstate((c, p) -> p.directionalBlock(c.get(), AssetLookup.partialBaseModel(c, p)))
+            .blockstate((c, p) -> p.directionalBlock(c.get(), p.cubeAll(c.get())))
             .simpleItem()
             .register();
 
@@ -78,8 +76,8 @@ public class AllBlocks {
             .blockstate((c, p) -> p.getVariantBuilder(c.get()).forAllStates(state -> {
                 boolean active = state.getValue(ThoriumReactorCoreBlock.ACTIVE);
                 String suffix = active ? "_powered" : "";
-                return ConfiguredModel.builder()
-                        .modelFile(p.models().getExistingFile(p.modLoc("block/thorium_reactor_core" + suffix)))
+                return net.neoforged.neoforge.client.model.generators.ConfiguredModel.builder()
+                        .modelFile(p.models().cubeAll(c.getName() + suffix, p.modLoc("block/thorium_reactor_core" + suffix)))
                         .build();
             }))
             .simpleItem()
@@ -94,7 +92,7 @@ public class AllBlocks {
     public static final BlockEntry<ThoriumReactorBoilerBlock> THORIUM_REACTOR_BOILER_BLOCK = CreateEnriched.REGISTRATE
             .block("thorium_reactor_boiler", ThoriumReactorBoilerBlock::new)
             .properties(p -> p.destroyTime(3.0f).explosionResistance(6.0f))
-            .blockstate((c, p) -> p.simpleBlock(c.get(), AssetLookup.partialBaseModel(c, p)))
+            .blockstate((c, p) -> p.simpleBlock(c.get()))
             .simpleItem()
             .register();
 

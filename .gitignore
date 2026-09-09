@@ -4,6 +4,10 @@
 # Gradle cache folder
 .gradle
 
+# Datagen cache
+src/generated/resources/.cache/
+**/ .cache/
+
 # Gradle build folder
 build
 

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "create_enriched:block/thorium_reactor_core"
+    },
+    "active=true": {
+      "model": "create_enriched:block/thorium_reactor_core_powered"
+    }
+  }
+}

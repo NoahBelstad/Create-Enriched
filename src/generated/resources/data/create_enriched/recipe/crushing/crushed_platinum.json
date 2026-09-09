@@ -1,0 +1,18 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "create_enriched:raw_platinum"
+    }
+  ],
+  "processing_time": 150,
+  "results": [
+    {
+      "id": "create_enriched:crushed_platinum"
+    },
+    {
+      "chance": 0.25,
+      "id": "create_enriched:crushed_platinum"
+    }
+  ]
+}

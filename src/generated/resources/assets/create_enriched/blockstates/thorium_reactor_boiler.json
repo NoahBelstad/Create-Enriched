@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "create_enriched:block/thorium_reactor_boiler"
+    }
+  }
+}

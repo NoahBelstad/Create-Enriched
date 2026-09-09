@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_graphite_nugget": {
+      "conditions": {
+        "items": [
+          {
+            "items": "create_enriched:graphite_nugget"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "create_enriched:graphite_ingot_from_nugget"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_graphite_nugget"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "create_enriched:graphite_ingot_from_nugget"
+    ]
+  }
+}
