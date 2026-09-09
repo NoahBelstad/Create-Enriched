@@ -1,7 +1,6 @@
-package com.noahbelstad.create_enriched.item;
+package com.noahbelstad.create_enriched.content.steam.boiler;
 
-import com.noahbelstad.create_enriched.block.BoilerBlockEntity;
-import com.noahbelstad.create_enriched.block.CreateEnrichedBlocks;
+import com.noahbelstad.create_enriched.AllBlocks;
 import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -51,7 +50,7 @@ public class BoilerConverterItem extends Item {
 
                 // 1. Replace all fluid tank blocks with Boiler blocks
                 for (BlockPos tankPos : multiblockPositions) {
-                    level.setBlock(tankPos, CreateEnrichedBlocks.BOILER_BLOCK.get().defaultBlockState(), 3);
+                    level.setBlock(tankPos, AllBlocks.BOILER_BLOCK.get().defaultBlockState(), 3);
                 }
 
                 // 2. Trigger multiblock assembly on the new BoilerBlockEntities

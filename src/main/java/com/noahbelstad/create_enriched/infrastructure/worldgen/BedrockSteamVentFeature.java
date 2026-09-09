@@ -1,6 +1,6 @@
-package com.noahbelstad.create_enriched.worldgen;
+package com.noahbelstad.create_enriched.infrastructure.worldgen;
 
-import com.noahbelstad.create_enriched.block.CreateEnrichedBlocks;
+import com.noahbelstad.create_enriched.AllBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
@@ -8,9 +8,9 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class BedrockDepositFeature extends Feature<NoneFeatureConfiguration> {
+public class BedrockSteamVentFeature extends Feature<NoneFeatureConfiguration> {
 
-    public BedrockDepositFeature() {
+    public BedrockSteamVentFeature() {
         super(NoneFeatureConfiguration.CODEC);
     }
 
@@ -39,7 +39,7 @@ public class BedrockDepositFeature extends Feature<NoneFeatureConfiguration> {
 
         // Replaces only the top-level bedrock block
         if (topBedrockPos != null) {
-            level.setBlock(topBedrockPos, CreateEnrichedBlocks.BEDROCK_STEAM_VENT_BLOCK.getDefaultState(), 2);
+            level.setBlock(topBedrockPos, AllBlocks.BEDROCK_STEAM_VENT_BLOCK.getDefaultState(), 2);
             return true;
         }
 

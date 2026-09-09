@@ -1,5 +1,6 @@
-package com.noahbelstad.create_enriched.block;
+package com.noahbelstad.create_enriched.content.steam.steam_vent;
 
+import com.noahbelstad.create_enriched.AllBlocks;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -44,7 +45,7 @@ public class BedrockSteamVentBlockEntity extends BlockEntity implements IHaveGog
     }
 
     public BedrockSteamVentBlockEntity(BlockPos pos, BlockState state) {
-        this(CreateEnrichedBlocks.BEDROCK_STEAM_VENT_BE.get(), pos, state);
+        this(AllBlocks.BEDROCK_STEAM_VENT_BE.get(), pos, state);
     }
 
     public void tick(Level level, BlockPos pos, BlockState state) {

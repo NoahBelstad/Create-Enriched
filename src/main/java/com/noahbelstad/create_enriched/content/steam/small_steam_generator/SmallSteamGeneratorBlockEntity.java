@@ -1,5 +1,6 @@
-package com.noahbelstad.create_enriched.block;
+package com.noahbelstad.create_enriched.content.steam.small_steam_generator;
 
+import com.noahbelstad.create_enriched.AllBlocks;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.kinetics.base.GeneratingKineticBlockEntity;
 import net.minecraft.ChatFormatting;
@@ -127,7 +128,7 @@ public class SmallSteamGeneratorBlockEntity extends GeneratingKineticBlockEntity
 
     @Override
     protected Block getStressConfigKey() {
-        return CreateEnrichedBlocks.SMALL_STEAM_GENERATOR_BLOCK.get();
+        return AllBlocks.SMALL_STEAM_GENERATOR_BLOCK.get();
     }
 
     @Override

@@ -1,5 +1,6 @@
-package com.noahbelstad.create_enriched;
+package com.noahbelstad.create_enriched.infrastructure.config;
 
+import com.noahbelstad.create_enriched.CreateEnriched;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.config.ModConfigEvent;

@@ -1,4 +1,4 @@
-package com.noahbelstad.create_enriched.config;
+package com.noahbelstad.create_enriched.infrastructure.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

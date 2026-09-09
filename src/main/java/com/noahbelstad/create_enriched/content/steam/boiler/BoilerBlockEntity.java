@@ -1,6 +1,6 @@
-package com.noahbelstad.create_enriched.block;
+package com.noahbelstad.create_enriched.content.steam.boiler;
 
-import com.noahbelstad.create_enriched.fluid.CreateEnrichedFluids;
+import com.noahbelstad.create_enriched.AllFluids;
 import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 import net.minecraft.ChatFormatting;
@@ -88,13 +88,13 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
             if (heatLevel > 0 && !waterBuffer.isEmpty()) {
                 int maxConversionRate = getMaxBoilRate();
 
-                if (tankInventory.isEmpty() || tankInventory.getFluid().is(CreateEnrichedFluids.STEAM_LIQUID.get())) {
+                if (tankInventory.isEmpty() || tankInventory.getFluid().is(AllFluids.STEAM_LIQUID.get())) {
                     int spaceForSteam = tankInventory.getCapacity() - tankInventory.getFluidAmount();
                     int actualConversion = Math.min(maxConversionRate, Math.min(waterBuffer.getFluidAmount(), spaceForSteam));
 
                     if (actualConversion > 0) {
                         waterBuffer.drain(actualConversion, IFluidHandler.FluidAction.EXECUTE);
-                        tankInventory.fill(new FluidStack(CreateEnrichedFluids.STEAM_LIQUID.get(), actualConversion), IFluidHandler.FluidAction.EXECUTE);
+                        tankInventory.fill(new FluidStack(AllFluids.STEAM_LIQUID.get(), actualConversion), IFluidHandler.FluidAction.EXECUTE);
 
                         actualBoilRate = actualConversion;
                     }
@@ -266,7 +266,7 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
         @Override
         public boolean isFluidValid(int tank, FluidStack stack) {
             if (tank == 0) return stack.is(Fluids.WATER);
-            if (tank == 1) return stack.is(CreateEnrichedFluids.STEAM_LIQUID.get());
+            if (tank == 1) return stack.is(AllFluids.STEAM_LIQUID.get());
             return false;
         }
 
@@ -292,7 +292,7 @@ public class BoilerBlockEntity extends FluidTankBlockEntity {
             if (resource.isEmpty()) return FluidStack.EMPTY;
             BoilerBlockEntity c = getController();
 
-            if (resource.is(CreateEnrichedFluids.STEAM_LIQUID.get())) {
+            if (resource.is(AllFluids.STEAM_LIQUID.get())) {
                 FluidStack drained = c.tankInventory.drain(resource, action);
                 if (!drained.isEmpty() && action.execute()) {
                     c.setChanged();

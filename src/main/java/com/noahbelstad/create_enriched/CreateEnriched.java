@@ -1,15 +1,9 @@
 package com.noahbelstad.create_enriched;
 
 import com.mojang.logging.LogUtils;
-import com.noahbelstad.create_enriched.block.CreateEnrichedBlocks;
-import com.noahbelstad.create_enriched.config.ReliableRemoverConfig;
-import com.noahbelstad.create_enriched.fluid.CreateEnrichedFluids;
-import com.noahbelstad.create_enriched.item.CreateEnrichedItems;
-import com.noahbelstad.create_enriched.tab.CreateEnrichedCreativeTabs;
-import com.noahbelstad.create_enriched.worldgen.CreateEnrichedFeatures;
+import com.noahbelstad.create_enriched.infrastructure.config.ReliableRemoverConfig;
 import com.simibubi.create.api.stress.BlockStressValues;
 import com.simibubi.create.foundation.data.CreateRegistrate;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -32,12 +26,12 @@ public class CreateEnriched {
     public CreateEnriched(IEventBus modEventBus, ModContainer modContainer) {
         REGISTRATE.registerEventListeners(modEventBus);
 
-        CreateEnrichedCreativeTabs.init();
+        AllTabs.init();
 
-        CreateEnrichedFluids.init();
-        CreateEnrichedItems.init();
-        CreateEnrichedBlocks.init();
-        CreateEnrichedFeatures.register(modEventBus);
+        AllFluids.init();
+        AllItems.init();
+        AllBlocks.init();
+        AllFeatures.register(modEventBus);
 
         modEventBus.addListener(this::registerCapabilities);
         modEventBus.addListener(this::commonSetup);
@@ -50,7 +44,7 @@ public class CreateEnriched {
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             BlockStressValues.CAPACITIES.register(
-                    CreateEnrichedBlocks.SMALL_STEAM_GENERATOR_BLOCK.get(),
+                    AllBlocks.SMALL_STEAM_GENERATOR_BLOCK.get(),
                     () -> 1728
             );
         });
@@ -73,31 +67,31 @@ public class CreateEnriched {
     private void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(
                 net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK,
-                CreateEnrichedBlocks.BEDROCK_STEAM_VENT_BE.get(),
+                AllBlocks.BEDROCK_STEAM_VENT_BE.get(),
                 (be, side) -> be.getTank()
         );
 
         event.registerBlockEntity(
                 net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK,
-                CreateEnrichedBlocks.BOILER_BE.get(),
+                AllBlocks.BOILER_BE.get(),
                 (be, side) -> be.getCustomFluidHandler()
         );
 
         event.registerBlockEntity(
                 net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK,
-                CreateEnrichedBlocks.SMALL_STEAM_GENERATOR_BE.get(),
+                AllBlocks.SMALL_STEAM_GENERATOR_BE.get(),
                 (be, side) -> be.getFluidHandlerForSide(side)
         );
 
         event.registerBlockEntity(
                 net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK,
-                CreateEnrichedBlocks.THORIUM_REACTOR_BOILER_BE.get(),
+                AllBlocks.THORIUM_REACTOR_BOILER_BE.get(),
                 (be, side) -> be.getFluidHandler()
         );
 
         event.registerBlockEntity(
                 net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
-                CreateEnrichedBlocks.THORIUM_REACTOR_BE.get(),
+                AllBlocks.THORIUM_REACTOR_BE.get(),
                 (be, side) -> be.getAutomationHandler()
         );
     }

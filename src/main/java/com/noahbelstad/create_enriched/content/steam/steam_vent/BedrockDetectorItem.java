@@ -1,6 +1,6 @@
-package com.noahbelstad.create_enriched.item;
+package com.noahbelstad.create_enriched.content.steam.steam_vent;
 
-import com.noahbelstad.create_enriched.block.CreateEnrichedBlocks;
+import com.noahbelstad.create_enriched.AllBlocks;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -33,7 +33,7 @@ public class BedrockDetectorItem extends Item {
                 for (int z = -radius; z <= radius; z++) {
                     for (int y = minY; y <= maxY; y++) {
                         BlockPos checkPos = new BlockPos(playerPos.getX() + x, y, playerPos.getZ() + z);
-                        if (level.isLoaded(checkPos) && level.getBlockState(checkPos).is(CreateEnrichedBlocks.BEDROCK_STEAM_VENT_BLOCK.get())) {
+                        if (level.isLoaded(checkPos) && level.getBlockState(checkPos).is(AllBlocks.BEDROCK_STEAM_VENT_BLOCK.get())) {
                             double distSq = playerPos.distSqr(checkPos);
                             if (distSq < minDistanceSq) {
                                 minDistanceSq = distSq;

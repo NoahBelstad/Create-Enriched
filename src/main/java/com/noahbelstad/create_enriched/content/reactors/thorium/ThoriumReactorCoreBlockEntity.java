@@ -1,6 +1,6 @@
-package com.noahbelstad.create_enriched.block;
+package com.noahbelstad.create_enriched.content.reactors.thorium;
 
-import com.noahbelstad.create_enriched.item.CreateEnrichedItems;
+import com.noahbelstad.create_enriched.AllItems;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -27,7 +27,7 @@ public class ThoriumReactorCoreBlockEntity extends BlockEntity implements IHaveG
     private final ItemStackHandler fuelInventory = new ItemStackHandler(1) {
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return stack.is(CreateEnrichedItems.LOW_PURITY_ENRICHED_THORIUM_PELLET.get());
+            return stack.is(AllItems.LOW_PURITY_ENRICHED_THORIUM_PELLET.get());
         }
 
         @Override
@@ -40,7 +40,7 @@ public class ThoriumReactorCoreBlockEntity extends BlockEntity implements IHaveG
     private final ItemStackHandler rodInventory = new ItemStackHandler(1) {
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return stack.is(CreateEnrichedItems.GRAPHITE_ROD.get());
+            return stack.is(AllItems.GRAPHITE_ROD.get());
         }
 
         @Override

@@ -1,6 +1,15 @@
-package com.noahbelstad.create_enriched.block;
+package com.noahbelstad.create_enriched;
 
-import com.noahbelstad.create_enriched.CreateEnriched;
+import com.noahbelstad.create_enriched.content.reactors.thorium.ThoriumReactorBoilerBlock;
+import com.noahbelstad.create_enriched.content.reactors.thorium.ThoriumReactorBoilerBlockEntity;
+import com.noahbelstad.create_enriched.content.reactors.thorium.ThoriumReactorCoreBlock;
+import com.noahbelstad.create_enriched.content.reactors.thorium.ThoriumReactorCoreBlockEntity;
+import com.noahbelstad.create_enriched.content.steam.boiler.BoilerBlock;
+import com.noahbelstad.create_enriched.content.steam.boiler.BoilerBlockEntity;
+import com.noahbelstad.create_enriched.content.steam.small_steam_generator.SmallSteamGeneratorBlock;
+import com.noahbelstad.create_enriched.content.steam.small_steam_generator.SmallSteamGeneratorBlockEntity;
+import com.noahbelstad.create_enriched.content.steam.steam_vent.BedrockSteamVentBlock;
+import com.noahbelstad.create_enriched.content.steam.steam_vent.BedrockSteamVentBlockEntity;
 import com.simibubi.create.foundation.data.AssetLookup;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
@@ -8,7 +17,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 
-public class CreateEnrichedBlocks {
+public class AllBlocks {
 
     public static final BlockEntry<Block> DEEPSLATE_THORIUM_ORE = CreateEnriched.REGISTRATE
             .block("deepslate_thorium_ore", Block::new)

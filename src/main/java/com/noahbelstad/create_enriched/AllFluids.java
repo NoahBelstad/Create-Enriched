@@ -1,11 +1,10 @@
-package com.noahbelstad.create_enriched.fluid;
+package com.noahbelstad.create_enriched;
 
-import com.noahbelstad.create_enriched.CreateEnriched;
 import com.simibubi.create.content.fluids.VirtualFluid;
 import com.tterrag.registrate.util.entry.FluidEntry;
 import net.minecraft.resources.ResourceLocation;
 
-public class CreateEnrichedFluids {
+public class AllFluids {
 
     public static final FluidEntry<VirtualFluid> STEAM_LIQUID = CreateEnriched.REGISTRATE
             .virtualFluid("steam_liquid",

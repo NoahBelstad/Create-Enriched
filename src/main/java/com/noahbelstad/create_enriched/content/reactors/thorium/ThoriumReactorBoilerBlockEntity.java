@@ -1,6 +1,6 @@
-package com.noahbelstad.create_enriched.block;
+package com.noahbelstad.create_enriched.content.reactors.thorium;
 
-import com.noahbelstad.create_enriched.fluid.CreateEnrichedFluids;
+import com.noahbelstad.create_enriched.AllFluids;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -44,7 +44,7 @@ public class ThoriumReactorBoilerBlockEntity extends BlockEntity implements IHav
     private final FluidTank steamTank = new FluidTank(TANK_CAPACITY) {
         @Override
         public boolean isFluidValid(FluidStack stack) {
-            return stack.getFluid().isSame(CreateEnrichedFluids.STEAM_LIQUID.get());
+            return stack.getFluid().isSame(AllFluids.STEAM_LIQUID.get());
         }
 
         @Override
@@ -87,7 +87,7 @@ public class ThoriumReactorBoilerBlockEntity extends BlockEntity implements IHav
         @NotNull
         @Override
         public FluidStack drain(FluidStack resource, FluidAction action) {
-            if (resource.getFluid().isSame(CreateEnrichedFluids.STEAM_LIQUID.get())) {
+            if (resource.getFluid().isSame(AllFluids.STEAM_LIQUID.get())) {
                 return steamTank.drain(resource, action);
             }
             return FluidStack.EMPTY;
@@ -122,7 +122,7 @@ public class ThoriumReactorBoilerBlockEntity extends BlockEntity implements IHav
 
             if (amountToConvert > 0) {
                 waterTank.drain(amountToConvert, IFluidHandler.FluidAction.EXECUTE);
-                steamTank.fill(new FluidStack(CreateEnrichedFluids.STEAM_LIQUID.get(), amountToConvert), IFluidHandler.FluidAction.EXECUTE);
+                steamTank.fill(new FluidStack(AllFluids.STEAM_LIQUID.get(), amountToConvert), IFluidHandler.FluidAction.EXECUTE);
             }
         }
     }

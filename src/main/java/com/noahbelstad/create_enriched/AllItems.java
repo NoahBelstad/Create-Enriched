@@ -1,10 +1,11 @@
-package com.noahbelstad.create_enriched.item;
+package com.noahbelstad.create_enriched;
 
-import com.noahbelstad.create_enriched.CreateEnriched;
+import com.noahbelstad.create_enriched.content.steam.boiler.BoilerConverterItem;
+import com.noahbelstad.create_enriched.content.steam.steam_vent.BedrockDetectorItem;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.world.item.Item;
 
-public class CreateEnrichedItems {
+public class AllItems {
 
     public static final ItemEntry<BoilerConverterItem> BOILER_CONVERTER = CreateEnriched.REGISTRATE
             .item("boiler_converter", BoilerConverterItem::new)

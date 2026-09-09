@@ -1,5 +1,6 @@
-package com.noahbelstad.create_enriched.block;
+package com.noahbelstad.create_enriched.content.steam.small_steam_generator;
 
+import com.noahbelstad.create_enriched.AllBlocks;
 import com.simibubi.create.content.kinetics.base.DirectionalKineticBlock;
 import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.core.BlockPos;
@@ -38,6 +39,6 @@ public class SmallSteamGeneratorBlock extends DirectionalKineticBlock implements
 
     @Override
     public BlockEntityType<? extends SmallSteamGeneratorBlockEntity> getBlockEntityType() {
-        return CreateEnrichedBlocks.SMALL_STEAM_GENERATOR_BE.get();
+        return AllBlocks.SMALL_STEAM_GENERATOR_BE.get();
     }
 }

@@ -1,4 +1,4 @@
-package com.noahbelstad.create_enriched.block;
+package com.noahbelstad.create_enriched.content.steam.steam_vent;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

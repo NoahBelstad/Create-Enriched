@@ -1,5 +1,6 @@
-package com.noahbelstad.create_enriched.block;
+package com.noahbelstad.create_enriched.content.reactors.thorium;
 
+import com.noahbelstad.create_enriched.AllBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -19,7 +20,7 @@ public class ThoriumReactorBoilerBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new ThoriumReactorBoilerBlockEntity(CreateEnrichedBlocks.THORIUM_REACTOR_BOILER_BE.get(), pos, state);
+        return new ThoriumReactorBoilerBlockEntity(AllBlocks.THORIUM_REACTOR_BOILER_BE.get(), pos, state);
     }
 
     @Nullable
