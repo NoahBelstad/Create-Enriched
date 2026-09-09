@@ -26,7 +26,7 @@ import java.util.List;
 
 public class BedrockSteamVentBlockEntity extends BlockEntity implements IHaveGoggleInformation {
 
-    private static final int PRODUCTION_RATE = 40; // mB per tick
+    private static final int PRODUCTION_RATE = 20; // mB per tick
 
     private final FluidTank tank = new FluidTank(2500) {
         @Override
@@ -51,7 +51,6 @@ public class BedrockSteamVentBlockEntity extends BlockEntity implements IHaveGog
     public void tick(Level level, BlockPos pos, BlockState state) {
         if (level.isClientSide) return;
 
-        // Produce Steam continuously up to capacity
         if (tank.getFluidAmount() < tank.getCapacity()) {
             Fluid steamFluid = getSteamFluid();
             if (steamFluid != null) {
