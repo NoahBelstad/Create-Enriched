@@ -1,0 +1,18 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "create:limestone"
+    }
+  ],
+  "processing_time": 150,
+  "results": [
+    {
+      "id": "create_enriched:limestone_dust"
+    },
+    {
+      "chance": 0.75,
+      "id": "create_enriched:limestone_dust"
+    }
+  ]
+}

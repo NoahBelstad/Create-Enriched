@@ -1,0 +1,25 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_nugget"
+    },
+    {
+      "type": "neoforge:single",
+      "amount": 250,
+      "fluid": "create_enriched:low_purity_sulfuric_acid"
+    },
+    {
+      "type": "neoforge:single",
+      "amount": 250,
+      "fluid": "minecraft:water"
+    }
+  ],
+  "processing_time": 150,
+  "results": [
+    {
+      "amount": 250,
+      "id": "create_enriched:low_purity_sulfuric_acid"
+    }
+  ]
+}

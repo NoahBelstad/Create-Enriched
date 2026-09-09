@@ -1,0 +1,15 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "item": "create_enriched:sulfur_dust"
+    }
+  ],
+  "processing_time": 80,
+  "results": [
+    {
+      "amount": 250,
+      "id": "create_enriched:low_purity_sulfur_dioxide"
+    }
+  ]
+}

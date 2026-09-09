@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "create_enriched:graphite_nugget"
+    },
+    {
+      "item": "create_enriched:graphite_nugget"
+    },
+    {
+      "item": "create_enriched:graphite_nugget"
+    },
+    {
+      "item": "create_enriched:graphite_nugget"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "create_enriched:graphite_ingot"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "create_enriched:graphite_dust"
+    },
+    {
+      "item": "create_enriched:graphite_dust"
+    }
+  ],
+  "results": [
+    {
+      "id": "create_enriched:graphite_nugget"
+    },
+    {
+      "chance": 0.25,
+      "id": "create_enriched:graphite_nugget"
+    }
+  ]
+}
