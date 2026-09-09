@@ -26,7 +26,7 @@ import java.util.List;
 public class ThoriumReactorBoilerBlockEntity extends BlockEntity implements IHaveGoggleInformation {
 
     private static final int TANK_CAPACITY = 8000;
-    private static final int CONVERSION_RATE = 25; // Matches Level 9 Boiler output (90 mB/t)
+    private static final int CONVERSION_RATE = 25;
 
     private final FluidTank waterTank = new FluidTank(TANK_CAPACITY) {
         @Override
@@ -148,8 +148,6 @@ public class ThoriumReactorBoilerBlockEntity extends BlockEntity implements IHav
     @Override
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
         tooltip.add(Component.literal("    Thorium Boiler").withStyle(ChatFormatting.GOLD));
-        tooltip.add(Component.literal("    Boil Rate: ").withStyle(ChatFormatting.GRAY)
-                .append(Component.literal(CONVERSION_RATE + " mB/t").withStyle(ChatFormatting.WHITE)));
 
         Component waterText = Component.literal(waterTank.getFluidAmount() + " / " + TANK_CAPACITY + " mB").withStyle(ChatFormatting.BLUE);
         Component steamText = Component.literal(steamTank.getFluidAmount() + " / " + TANK_CAPACITY + " mB").withStyle(ChatFormatting.WHITE);

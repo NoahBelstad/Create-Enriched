@@ -44,6 +44,11 @@ public class ThoriumReactorCoreBlockEntity extends BlockEntity implements IHaveG
         }
 
         @Override
+        public int getSlotLimit(int slot) {
+            return 25;
+        }
+
+        @Override
         protected void onContentsChanged(int slot) {
             setChanged();
             syncToClient();
@@ -98,7 +103,7 @@ public class ThoriumReactorCoreBlockEntity extends BlockEntity implements IHaveG
 
     private boolean isActive = false;
     private int burnProgress = 0;
-    private final int maxBurnTime = 6000;
+    private final int maxBurnTime = 12000;
 
     public ThoriumReactorCoreBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -108,17 +113,17 @@ public class ThoriumReactorCoreBlockEntity extends BlockEntity implements IHaveG
         if (level.isClientSide()) return;
 
         boolean hasFuel = !fuelInventory.getStackInSlot(0).isEmpty();
-        boolean hasRod = !rodInventory.getStackInSlot(0).isEmpty();
+        ItemStack rodStack = rodInventory.getStackInSlot(0);
+        int rodCount = Math.min(rodStack.getCount(), 25);
 
-        boolean shouldBeActive = hasFuel && hasRod;
+        boolean shouldBeActive = hasFuel && rodCount > 0;
 
         if (shouldBeActive) {
-            burnProgress++;
+            burnProgress += rodCount;
 
             if (burnProgress >= maxBurnTime) {
                 burnProgress = 0;
                 fuelInventory.extractItem(0, 1, false);
-                rodInventory.extractItem(0, 1, false);
             }
         } else {
             burnProgress = 0;
@@ -141,6 +146,17 @@ public class ThoriumReactorCoreBlockEntity extends BlockEntity implements IHaveG
 
     public boolean isActive() {
         return this.isActive;
+    }
+
+    public int getBoilRate() {
+        if (!isActive) return 0;
+        return Math.min(rodInventory.getStackInSlot(0).getCount(), 25);
+    }
+
+    public float getFuelUsagePerMinute() {
+        if (!isActive) return 0f;
+        int rodCount = Math.min(rodInventory.getStackInSlot(0).getCount(), 25);
+        return (1200f * rodCount) / maxBurnTime;
     }
 
     public IItemHandler getAutomationHandler() {
@@ -174,11 +190,23 @@ public class ThoriumReactorCoreBlockEntity extends BlockEntity implements IHaveG
 
         Component rodText = rodStack.isEmpty()
                 ? Component.literal("Empty").withStyle(ChatFormatting.GRAY)
-                : Component.literal("Low purity: ").withStyle(ChatFormatting.GOLD)
+                : Component.literal("Count: ").withStyle(ChatFormatting.GOLD)
                 .append(Component.literal(String.valueOf(rodStack.getCount())).withStyle(ChatFormatting.WHITE));
 
         tooltip.add(Component.literal(" Fuel Pellet: ").append(fuelText));
         tooltip.add(Component.literal(" Graphite Rod: ").append(rodText));
+
+        if (isActive) {
+            int boilRate = getBoilRate();
+            float usagePerMin = getFuelUsagePerMinute();
+
+            tooltip.add(Component.literal(" Boil Rate: ").withStyle(ChatFormatting.GRAY)
+                    .append(Component.literal(boilRate + " mB/t").withStyle(ChatFormatting.AQUA)));
+
+            String usageFormatted = String.format("%.2f", usagePerMin);
+            tooltip.add(Component.literal(" Fuel Usage: ").withStyle(ChatFormatting.GRAY)
+                    .append(Component.literal(usageFormatted + " / min").withStyle(ChatFormatting.YELLOW)));
+        }
 
         return true;
     }
